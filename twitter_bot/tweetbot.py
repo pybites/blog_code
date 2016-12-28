@@ -58,8 +58,8 @@ def get_tweets(feed):
             yield create_tweet(entry)
 
 if __name__ == "__main__":
-    twapi = TwitterApi()
     logging.debug('New run at {}, processing feeds'.format(NOW_READABLE))
+    twapi = TwitterApi()
     for feed in get_feeds():
         logging.debug('- feed: {}'.format(feed))
         for tweet in get_tweets(feed):
