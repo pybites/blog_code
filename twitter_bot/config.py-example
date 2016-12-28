@@ -1,4 +1,5 @@
 LOGFILE = "bot.log"
+HASHTAG = '#python'
 
 # twitter api
 CONSUMER_KEY = ''

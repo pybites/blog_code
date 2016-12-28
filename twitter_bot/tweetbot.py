@@ -6,12 +6,11 @@ import time
 import feedparser
 import tweepy
 
-from config import LOGFILE
+from config import LOGFILE, HASHTAG
 from config import CONSUMER_KEY, CONSUMER_SECRET
 from config import ACCESS_TOKEN, ACCESS_SECRET
 
 FEEDS = 'feeds'
-HASHTAG = '#python'
 MAX_ENTRIES = 5
 NOW = time.localtime()
 NOW_UTSTAMP = time.mktime(NOW)
