@@ -35,7 +35,7 @@ class TwitterApi(object):
 
     def post_tweet(self, status):
         try:
-            #self.api.update_status(status)
+            self.api.update_status(status)
             logging.debug('posted status {} to twitter'.format(status))
         except TweepError as err:
             logging.error('tweepy update_status error: {}'.format(err))
