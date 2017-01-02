@@ -46,10 +46,10 @@ def strip_html(text):
 
 if __name__ == "__main__":
     days_back = int(sys.argv[1]) if len(sys.argv) > 1 else DEFAULT_DAYS_BACK
-    html = True if len(sys.argv) > 2 else False
+    report_html = True if len(sys.argv) > 2 else False
     utstamp_limit = calc_utstamp_limit(days_back)
     for article in get_articles(utstamp_limit):
-        if html:
+        if report_html:
             print(ARTICLE_HTML.format(
                 article['link'], article['title'], article['summary']))
         else:
