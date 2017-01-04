@@ -18,7 +18,7 @@ def get_all_timestamps():
         return TIME_REGEX.findall(f.read()) #Searching for regex and returning it
     
 #Strip out the brackets and the colon
-def time_calculation(durations):
+def calc_duration(durations):
     sum_seconds = 0
     #For loop to strip brackets/colon and assign the mins/seconds
     for mm_ss in durations:
@@ -33,7 +33,7 @@ if __name__ == "__main__":
     time_list = get_all_timestamps()
 
     #Call time calc function and assign min & sec output to variables
-    total_seconds = time_calculation(time_list)
+    total_seconds = calc_duration(time_list)
 
     #Calculates total hours of course by adding mins + secs together
     total_hours = float(total_seconds / SECONDS_IN_HOUR)
