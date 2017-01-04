@@ -21,8 +21,8 @@ def time_calculation(durations):
     sum_minutes = 0
     sum_seconds = 0
     #For loop to strip brackets/colon and assign the mins/seconds
-    for i in range(len(durations)):
-        minutes, seconds = durations[i].strip('()').split(':')
+    for mm_ss in durations:
+        minutes, seconds = mm_ss.strip('()').split(':')
         sum_minutes = sum_minutes + int(minutes)
         sum_seconds = sum_seconds + int(seconds)
         
