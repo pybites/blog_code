@@ -13,8 +13,8 @@ time_list = []
 
 #Read in the HTML file and search it for time regex
 def search_file():
-    file_content = open(HTML_FILE).read()
-    return TIME_REGEX.findall(file_content) #Searching for regex and returning it
+    with open(HTML_FILE) as f:
+        return TIME_REGEX.findall(f.read()) #Searching for regex and returning it
     
 #Strip out the brackets and the colon
 def time_calculation(durations):
