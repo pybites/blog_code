@@ -19,8 +19,7 @@ def calc_duration(durations):
     sum_seconds = 0
     for mm_ss in durations:
         minutes, seconds = mm_ss.strip('()').split(':')
-        sum_seconds += int(minutes) * SECONDS_IN_MIN
-        sum_seconds += int(seconds)
+        sum_seconds += int(minutes) * SECONDS_IN_MIN + int(seconds)
     return sum_seconds 
 
 
