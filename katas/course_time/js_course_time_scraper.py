@@ -7,6 +7,8 @@ import re
 
 #Specify file to read in
 HTML_FILE = "content.html"
+SECONDS_IN_MIN = 60
+SECONDS_IN_HOUR = 60 * SECONDS_IN_MIN
 TIME_REGEX = re.compile(r'\(\d+:\d+\)') #Creating the regex
 
 
@@ -17,14 +19,13 @@ def get_all_timestamps():
     
 #Strip out the brackets and the colon
 def time_calculation(durations):
-    sum_minutes = 0
     sum_seconds = 0
     #For loop to strip brackets/colon and assign the mins/seconds
     for mm_ss in durations:
         minutes, seconds = mm_ss.strip('()').split(':')
-        sum_minutes += int(minutes)
+        sum_seconds += int(minutes) * SECONDS_IN_MIN
         sum_seconds += int(seconds)
-    return sum_minutes, sum_seconds #Returns the sum of all mins/seconds
+    return sum_seconds #Returns the sum of all mins/seconds
 
 
 if __name__ == "__main__":
@@ -32,11 +33,10 @@ if __name__ == "__main__":
     time_list = get_all_timestamps()
 
     #Call time calc function and assign min & sec output to variables
-    total_minutes, total_seconds = time_calculation(time_list)
+    total_seconds = time_calculation(time_list)
 
     #Calculates total hours of course by adding mins + secs together
-    total_hours = float((total_minutes / 60) + (total_seconds / 3600))
-
+    total_hours = float(total_seconds / SECONDS_IN_HOUR)
 
     assert str(total_hours) == '6.841944444444445'
 
