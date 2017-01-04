@@ -30,16 +30,17 @@ def time_calculation(durations):
     return sum_minutes, sum_seconds #Returns the sum of all mins/seconds
 
 
-#Call on search function and assign regex output to variable
-time_list = search_file(HTML_FILE)
+if __name__ == "__main__":
+    #Call on search function and assign regex output to variable
+    time_list = search_file(HTML_FILE)
 
-#Call time calc function and assign min & sec output to variables
-total_minutes, total_seconds = time_calculation(time_list)
+    #Call time calc function and assign min & sec output to variables
+    total_minutes, total_seconds = time_calculation(time_list)
 
-#Calculates total hours of course by adding mins + secs together
-total_hours = float((total_minutes / 60) + (total_seconds / 3600))
+    #Calculates total hours of course by adding mins + secs together
+    total_hours = float((total_minutes / 60) + (total_seconds / 3600))
 
 
-assert str(total_hours) == '6.841944444444445'
+    assert str(total_hours) == '6.841944444444445'
 
-print('The course takes ' + str(total_hours) + ' hours to complete.')
+    print('The course takes ' + str(total_hours) + ' hours to complete.')
