@@ -40,4 +40,6 @@ total_minutes, total_seconds = time_calculation(time_list)
 total_hours = float((total_minutes / 60) + (total_seconds / 3600))
 
 
+assert str(total_hours) == '6.841944444444445'
+
 print('The course takes ' + str(total_hours) + ' hours to complete.')
