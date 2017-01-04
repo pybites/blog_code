@@ -8,7 +8,6 @@ import re
 #Specify file to read in
 HTML_FILE = "content.html"
 TIME_REGEX = re.compile(r'\(\d+:\d+\)') #Creating the regex
-time_list = []
 
 
 #Read in the HTML file and search it for time regex
