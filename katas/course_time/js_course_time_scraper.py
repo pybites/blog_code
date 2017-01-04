@@ -25,8 +25,8 @@ def calc_duration(durations):
 
 
 if __name__ == "__main__":
-    time_list = get_all_timestamps()
-    total_seconds = calc_duration(time_list)
+    video_timings = get_all_timestamps()
+    total_seconds = calc_duration(video_timings)
     total_hours = float(total_seconds / SECONDS_IN_HOUR)
     assert str(total_hours) == '6.841944444444445'
     print('The course takes ' + str(total_hours) + ' hours to complete.')
