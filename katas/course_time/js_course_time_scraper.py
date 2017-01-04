@@ -12,7 +12,7 @@ time_list = []
 
 
 #Read in the HTML file and search it for time regex
-def search_file():
+def get_all_timestamps():
     with open(HTML_FILE) as f:
         return TIME_REGEX.findall(f.read()) #Searching for regex and returning it
     
@@ -30,7 +30,7 @@ def time_calculation(durations):
 
 if __name__ == "__main__":
     #Call on search function and assign regex output to variable
-    time_list = search_file()
+    time_list = get_all_timestamps()
 
     #Call time calc function and assign min & sec output to variables
     total_minutes, total_seconds = time_calculation(time_list)
