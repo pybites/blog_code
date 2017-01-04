@@ -20,22 +20,22 @@ def get_all_timestamps():
 #Strip out the brackets and the colon
 def calc_duration(durations):
     sum_seconds = 0
-    #For loop to strip brackets/colon and assign the mins/seconds
+    #For loop to strip brackets/colon and assign the seconds
     for mm_ss in durations:
         minutes, seconds = mm_ss.strip('()').split(':')
         sum_seconds += int(minutes) * SECONDS_IN_MIN
         sum_seconds += int(seconds)
-    return sum_seconds #Returns the sum of all mins/seconds
+    return sum_seconds #Returns the sum of all seconds
 
 
 if __name__ == "__main__":
     #Call on search function and assign regex output to variable
     time_list = get_all_timestamps()
 
-    #Call time calc function and assign min & sec output to variables
+    #Call time calc function and assign sec output to variables
     total_seconds = calc_duration(time_list)
 
-    #Calculates total hours of course by adding mins + secs together
+    #Calculates total hours of course by adding secs together
     total_hours = float(total_seconds / SECONDS_IN_HOUR)
 
     assert str(total_hours) == '6.841944444444445'
