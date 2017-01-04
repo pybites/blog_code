@@ -7,15 +7,14 @@ import re
 
 #Specify file to read in
 HTML_FILE = "content.html"
+TIME_REGEX = re.compile(r'\(\d+:\d+\)') #Creating the regex
 time_list = []
 
 
 #Read in the HTML file and search it for time regex
 def search_file():
     file_content = open(HTML_FILE).read()
-    time_regex = re.compile(r'\(\d+:\d+\)') #Creating the regex
-
-    return time_regex.findall(file_content) #Searching for regex and returning it
+    return TIME_REGEX.findall(file_content) #Searching for regex and returning it
     
 #Strip out the brackets and the colon
 def time_calculation(durations):
