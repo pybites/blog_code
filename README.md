@@ -1,3 +1,3 @@
-## Blog code
+## PyBites Blog Code
 
-Repo to push sample code of our blog.
+Sample code for our blog [http://pybit.es](http://pybit.es).
