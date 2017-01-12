@@ -1,6 +1,7 @@
 from collections import Counter
 from itertools import dropwhile
 import os
+from pprint import pprint as pp
 import re
 
 from bs4 import BeautifulSoup as Soup
@@ -47,6 +48,7 @@ if __name__ == "__main__":
         assert(sum(cnt.values()) == 204)
 
     books = get_books()
+    pp(books)
     test(books)
     multiple_mentions = get_multiple_mentions(books)
     print_results(multiple_mentions)
