@@ -2,7 +2,7 @@
 
 In this directory we store our notebooks. 
 
-We have others that appeared on (and are linked from) the blog:
+Some [appeared on the blog](https://github.com/pybites/pybites.github.io-src/tree/master/content), these are linked below:
 
 * [Everything is an Object, Python OOP primer](http://pybit.es/oop-primer.html)
 
