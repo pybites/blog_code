@@ -8,3 +8,5 @@ Some [appeared on the blog](https://github.com/pybites/pybites.github.io-src/tre
 
 * [Python Data model](http://pybit.es/python-data-model.html)
 
+* [Visualizing website and social media metrics with matplotlib](http://pybit.es/matplotlib-starter.html)
+
