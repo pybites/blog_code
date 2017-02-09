@@ -1,6 +1,6 @@
 from datetime import datetime
+import logging
 import os
-from pprint import pprint as pp
 from time import mktime
 import sys
 
@@ -14,7 +14,21 @@ PYPI = 'https://pypi.python.org/pypi'
 PYPI_OUT = 'pypi.html'
 RSS = 'https://pypi.python.org/pypi?%3Aaction=packages_rss'
 RSS_OUT = 'feed.rss'
+LOGFILE = 'pypi.log'
 REFRESH = True
+
+
+logFormatter = logging.Formatter("%(asctime)s [%(threadName)-12.12s] [%(levelname)-5.5s]  %(message)s")
+rootLogger = logging.getLogger()
+rootLogger.setLevel(logging.INFO)  # ignore imported module's debug messages
+
+fileHandler = logging.FileHandler(LOGFILE)
+fileHandler.setFormatter(logFormatter)
+rootLogger.addHandler(fileHandler)
+
+consoleHandler = logging.StreamHandler()
+consoleHandler.setFormatter(logFormatter)
+rootLogger.addHandler(consoleHandler)
 
 
 def get_feed(rss, fname):
@@ -42,7 +56,7 @@ def main():
         get_feed(RSS, RSS_OUT)
 
     num_packages = get_current_num_packages()
-    print('Now there are {} packages'.format(num_packages))
+    logging.info('Now there are {} packages'.format(num_packages))
 
     with open(RSS_OUT) as f:
         html = f.read()
@@ -50,15 +64,15 @@ def main():
         dates = [datetime.fromtimestamp(mktime(item['published_parsed'])) for item in items['entries']]
         maxdate = max(dates) 
         mindate = min(dates)
-        print('RSS new packages: min date = {} / max date = {}'.format(mindate, maxdate))
+        logging.info('RSS new packages: min date = {} / max date = {}'.format(mindate, maxdate))
         avg_addtime = (maxdate - mindate) / len(dates)
-        print('Avg time between additions: {}'.format(avg_addtime))
+        logging.info('Avg time between additions: {}'.format(avg_addtime))
         packages_to_be_added = NUM_PACKS_TO_REACH - num_packages
-        print('Packages to be added: {}'.format(packages_to_be_added))
+        logging.info('Packages to be added: {}'.format(packages_to_be_added))
         time_till_reach = avg_addtime * packages_to_be_added
-        print('Time till reach = {}'.format(time_till_reach))
+        logging.info('Time till reach = {}'.format(time_till_reach))
         endresult = NOW + time_till_reach
-        print('Result (NOW + time till reach): {}'.format(endresult))
+        logging.info('Result (NOW + time till reach): {}'.format(endresult))
 
 if __name__ == "__main__":
     main()
