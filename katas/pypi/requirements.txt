@@ -1,0 +1,5 @@
+beautifulsoup4==4.5.3
+bs4==0.0.1
+feedparser==5.2.1
+lxml==3.7.2
+requests==2.13.0
