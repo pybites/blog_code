@@ -8,7 +8,7 @@ import bs4
 import feedparser
 import requests
 
-NUM_PACKS_TO_REACH = 100_000
+NUM_PACKS_TO_REACH = 100000
 NOW = datetime.utcnow()
 PYPI = 'https://pypi.python.org/pypi'
 PYPI_OUT = 'pypi.html'
