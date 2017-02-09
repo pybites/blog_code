@@ -42,14 +42,23 @@ def main():
         get_feed(RSS, RSS_OUT)
 
     num_packages = get_current_num_packages()
+    print('Now there are {} packages'.format(num_packages))
 
     with open(RSS_OUT) as f:
         html = f.read()
         items = feedparser.parse(html)
         dates = [datetime.fromtimestamp(mktime(item['published_parsed'])) for item in items['entries']]
-        avg_addtime = (max(dates) - min(dates)) / len(dates)
-        time_till_reach = avg_addtime * (NUM_PACKS_TO_REACH - num_packages) 
-        print(NOW + time_till_reach)
+        maxdate = max(dates) 
+        mindate = min(dates)
+        print('RSS new packages: min date = {} / max date = {}'.format(mindate, maxdate))
+        avg_addtime = (maxdate - mindate) / len(dates)
+        print('Avg time between additions: {}'.format(avg_addtime))
+        packages_to_be_added = NUM_PACKS_TO_REACH - num_packages
+        print('Packages to be added: {}'.format(packages_to_be_added))
+        time_till_reach = avg_addtime * packages_to_be_added
+        print('Time till reach = {}'.format(time_till_reach))
+        endresult = NOW + time_till_reach
+        print('Result (NOW + time till reach): {}'.format(endresult))
 
 if __name__ == "__main__":
     main()
