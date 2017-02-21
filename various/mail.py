@@ -4,7 +4,9 @@ import smtplib
 
 PYBITES_EMAIL = 'pybitesblog@gmail.com'
 
-def email(recipients, subject, content):
+def email(subject, content, recipients=None):
+    if not recipients:
+        recipients = [PYBITES_EMAIL]
     msg = MIMEMultipart('alternative')
     msg['Subject'] = subject
     msg['From'] = PYBITES_EMAIL

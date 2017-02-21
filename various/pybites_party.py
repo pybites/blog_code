@@ -61,7 +61,6 @@ if __name__ == "__main__":
         whatday = 'birthday' if AGE_DAYS % DAYS_IN_YEAR == 0 else 'celebration day'
         subject = 'Happy {}!'.format(whatday)
         message = '{} exists {} days today, go celebrate!'.format(PYBITES, AGE_DAYS)
-        email(PYBITES_EMAIL, subject, message)
-        print('Yes!')
+        email(subject, message)
     else:
         print('No ... days till next birtday: {}'.format(days_till_special_day()))
