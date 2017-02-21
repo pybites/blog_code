@@ -57,7 +57,7 @@ if __name__ == "__main__":
     print('Does {} have a birthday today?'.format(PYBITES))
 
     if today_is_special_day():
-        print('Yes! Sending email to {}'.format(PYBITES_EMAIL))
+        print('Yes! Sending celebration email')
         whatday = 'birthday' if AGE_DAYS % DAYS_IN_YEAR == 0 else 'celebration day'
         subject = 'Happy {}!'.format(whatday)
         message = '{} exists {} days today, go celebrate!'.format(PYBITES, AGE_DAYS)
