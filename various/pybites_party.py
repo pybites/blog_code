@@ -41,9 +41,6 @@ if __name__ == "__main__":
     test_today_is_special_day()
     test_days_till_bday()
 
-    # test all branches!
-    # initially forgot to take days (int) out of age, resulting in:
-    # TypeError: unsupported operand type(s) for %: 'datetime.timedelta' and 'int'
     print('{} is {} days old'.format(PYBITES, AGE_DAYS))
     print('Does {} have a birthday today?'.format(PYBITES))
 
