@@ -1,5 +1,6 @@
 import datetime
 import logging
+import sys
 import time
 
 import feedparser
@@ -59,9 +60,15 @@ def get_tweets(feed):
 
 if __name__ == "__main__":
     logging.debug('New run at {}, processing feeds'.format(NOW_READABLE))
+    do_tweet = True
+    if '-d' in sys.argv:
+        do_tweet = False
     twapi = TwitterApi()
     for feed in get_feeds():
         logging.debug('- feed: {}'.format(feed))
         for tweet in get_tweets(feed):
             logging.debug(tweet)
-            twapi.post_tweet(tweet)
+            if do_tweet:
+                twapi.post_tweet(tweet)
+            else:
+                print(tweet)
