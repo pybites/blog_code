@@ -57,7 +57,7 @@ def get_item(id):
 
 @app.route('/api/v1.0/items', methods=['POST'])
 def create_item():
-    if not request.json or 'name' not in request.json:
+    if not request.json or 'name' not in request.json or 'value' not in request.json:
         abort(400)
     item_id = items[-1].get("id") + 1
     name = request.json.get('name')

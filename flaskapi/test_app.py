@@ -34,6 +34,12 @@ class TestFlaskApi(unittest.TestCase):
         self.assertEqual(response.status_code, 404)
 
     def test_post(self):
+        # missing value = bad
+        item = {"name": "some_item"}
+        response = self.app.post(BASE_URL, 
+				data=json.dumps(item),
+				content_type='application/json')
+        self.assertEqual(response.status_code, 400)
         # val is string = bad
         item = {"name": "screen", "value": 'string'}
         response = self.app.post(BASE_URL, 
