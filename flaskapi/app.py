@@ -1,5 +1,8 @@
 from flask import Flask, jsonify, abort, make_response, request
 
+NOT_FOUND = 'Not found'
+BAD_REQUEST = 'Bad request'
+
 app = Flask(__name__)
 
 items = [
@@ -31,12 +34,12 @@ def _record_exists(name):
 
 @app.errorhandler(404)
 def not_found(error):
-    return make_response(jsonify({'error': 'Not found'}), 404)
+    return make_response(jsonify({'error': NOT_FOUND}), 404)
 
 
 @app.errorhandler(400)
 def bad_request(error):
-    return make_response(jsonify({'error': 'Bad request'}), 400)
+    return make_response(jsonify({'error': BAD_REQUEST}), 400)
 
 
 @app.route('/api/v1/items', methods=['GET'])
@@ -55,7 +58,7 @@ def get_item(id):
 @app.route('/api/v1/items', methods=['POST'])
 def create_item():
     if not request.json or 'name' not in request.json:
-        abort(404)
+        abort(400)
     item_id = items[-1].get("id") + 1
     name = request.json.get('name')
     if _record_exists(name):
@@ -82,7 +85,7 @@ def update_item(id):
         abort(400)
     item[0]['name'] = name
     item[0]['value'] = value
-    return jsonify({'item': item[0]})
+    return jsonify({'item': item[0]}), 200
 
 
 @app.route('/api/v1/items/<int:id>', methods=['DELETE'])
