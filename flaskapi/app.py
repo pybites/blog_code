@@ -42,12 +42,12 @@ def bad_request(error):
     return make_response(jsonify({'error': BAD_REQUEST}), 400)
 
 
-@app.route('/api/v1/items', methods=['GET'])
+@app.route('/api/v1.0/items', methods=['GET'])
 def get_items():
     return jsonify({'items': items})
 
 
-@app.route('/api/v1/items/<int:id>', methods=['GET'])
+@app.route('/api/v1.0/items/<int:id>', methods=['GET'])
 def get_item(id):
     item = _get_item(id)
     if not item:
@@ -55,7 +55,7 @@ def get_item(id):
     return jsonify({'items': item})
 
 
-@app.route('/api/v1/items', methods=['POST'])
+@app.route('/api/v1.0/items', methods=['POST'])
 def create_item():
     if not request.json or 'name' not in request.json:
         abort(400)
@@ -72,7 +72,7 @@ def create_item():
     return jsonify({'item': item}), 201
 
 
-@app.route('/api/v1/items/<int:id>', methods=['PUT'])
+@app.route('/api/v1.0/items/<int:id>', methods=['PUT'])
 def update_item(id):
     item = _get_item(id)
     if len(item) == 0:
@@ -88,7 +88,7 @@ def update_item(id):
     return jsonify({'item': item[0]}), 200
 
 
-@app.route('/api/v1/items/<int:id>', methods=['DELETE'])
+@app.route('/api/v1.0/items/<int:id>', methods=['DELETE'])
 def delete_item(id):
     item = _get_item(id)
     if len(item) == 0:

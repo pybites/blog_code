@@ -5,7 +5,7 @@ import json
 
 import app
 
-BASE_URL = 'http://127.0.0.1:5000/api/v1/items'
+BASE_URL = 'http://127.0.0.1:5000/api/v1.0/items'
 BAD_ITEM_URL = '{}/5'.format(BASE_URL)
 GOOD_ITEM_URL = '{}/3'.format(BASE_URL)
 
