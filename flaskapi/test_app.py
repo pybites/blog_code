@@ -1,5 +1,4 @@
 from copy import deepcopy
-from pprint import pprint as pp
 import unittest
 import json
 
@@ -34,19 +33,19 @@ class TestFlaskApi(unittest.TestCase):
         self.assertEqual(response.status_code, 404)
 
     def test_post(self):
-        # missing value = bad
+        # missing value field = bad
         item = {"name": "some_item"}
         response = self.app.post(BASE_URL, 
 				data=json.dumps(item),
 				content_type='application/json')
         self.assertEqual(response.status_code, 400)
-        # val is string = bad
+        # value field cannot take str
         item = {"name": "screen", "value": 'string'}
         response = self.app.post(BASE_URL, 
 				data=json.dumps(item),
 				content_type='application/json')
         self.assertEqual(response.status_code, 400)
-        # good one
+        # valid: both required fields, value takes int
         item = {"name": "screen", "value": 200}
         response = self.app.post(BASE_URL, 
 				data=json.dumps(item),
@@ -55,7 +54,7 @@ class TestFlaskApi(unittest.TestCase):
         data = json.loads(response.get_data())
         self.assertEqual(data['item']['id'], 4)
         self.assertEqual(data['item']['name'], 'screen')
-        # cannot insert again
+        # cannot add item with same name again
         item = {"name": "screen", "value": 200}
         response = self.app.post(BASE_URL, 
 				data=json.dumps(item),
@@ -72,13 +71,13 @@ class TestFlaskApi(unittest.TestCase):
         self.assertEqual(data['item']['value'], 30)
 
     def test_update_error(self):
-        # non existing endpoint
+        # cannot edit non-existing item
         item = {"value": 30}
         response = self.app.put(BAD_ITEM_URL, 
 				data=json.dumps(item),
 				content_type='application/json')
         self.assertEqual(response.status_code, 404)
-        # val is string = bad
+        # value field cannot take str
         item = {"value": 'string'}
         response = self.app.put(GOOD_ITEM_URL, 
 				data=json.dumps(item),
@@ -90,7 +89,7 @@ class TestFlaskApi(unittest.TestCase):
         data = json.loads(response.get_data())
         response = self.app.delete(GOOD_ITEM_URL) 
         self.assertEqual(response.status_code, 204)
-        # non existing endpoint
+        # cannot delete non-existing item
         response = self.app.delete(BAD_ITEM_URL) 
         self.assertEqual(response.status_code, 404)
 
