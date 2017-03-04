@@ -69,8 +69,9 @@ class TestFlaskApi(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
         data = json.loads(response.get_data())
         self.assertEqual(data['item']['value'], 30)
-        # backup items should not change = proof need for deepcopy in setUp
-        self.assertEqual(self.backup_items[2]['value'], 20)  # not 30!
+        # proof need for deepcopy in setUp: update app.items should not affect self.backup_items
+        # this fails when you use shallow copy
+        self.assertEqual(self.backup_items[2]['value'], 20)  # org value
 
     def test_update_error(self):
         # cannot edit non-existing item
@@ -89,12 +90,11 @@ class TestFlaskApi(unittest.TestCase):
     def test_delete(self):
         response = self.app.delete(GOOD_ITEM_URL)
         self.assertEqual(response.status_code, 204)
-        # cannot delete non-existing item
         response = self.app.delete(BAD_ITEM_URL)
         self.assertEqual(response.status_code, 404)
 
     def tearDown(self):
-        # to start next test with fresh copy of items
+        # reset app.items to initial state
         app.items = self.backup_items
 
 
