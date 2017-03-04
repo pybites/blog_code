@@ -8,6 +8,7 @@ BASE_URL = 'http://127.0.0.1:5000/api/v1.0/items'
 BAD_ITEM_URL = '{}/5'.format(BASE_URL)
 GOOD_ITEM_URL = '{}/3'.format(BASE_URL)
 
+
 class TestFlaskApi(unittest.TestCase):
 
     def setUp(self):
@@ -29,72 +30,72 @@ class TestFlaskApi(unittest.TestCase):
 
     def test_item_not_exist(self):
         response = self.app.get(BAD_ITEM_URL)
-        data = json.loads(response.get_data())
         self.assertEqual(response.status_code, 404)
 
     def test_post(self):
         # missing value field = bad
         item = {"name": "some_item"}
-        response = self.app.post(BASE_URL, 
-				data=json.dumps(item),
-				content_type='application/json')
+        response = self.app.post(BASE_URL,
+                                 data=json.dumps(item),
+                                 content_type='application/json')
         self.assertEqual(response.status_code, 400)
         # value field cannot take str
         item = {"name": "screen", "value": 'string'}
-        response = self.app.post(BASE_URL, 
-				data=json.dumps(item),
-				content_type='application/json')
+        response = self.app.post(BASE_URL,
+                                 data=json.dumps(item),
+                                 content_type='application/json')
         self.assertEqual(response.status_code, 400)
         # valid: both required fields, value takes int
         item = {"name": "screen", "value": 200}
-        response = self.app.post(BASE_URL, 
-				data=json.dumps(item),
-				content_type='application/json')
+        response = self.app.post(BASE_URL,
+                                 data=json.dumps(item),
+                                 content_type='application/json')
         self.assertEqual(response.status_code, 201)
         data = json.loads(response.get_data())
         self.assertEqual(data['item']['id'], 4)
         self.assertEqual(data['item']['name'], 'screen')
         # cannot add item with same name again
         item = {"name": "screen", "value": 200}
-        response = self.app.post(BASE_URL, 
-				data=json.dumps(item),
-				content_type='application/json')
+        response = self.app.post(BASE_URL,
+                                 data=json.dumps(item),
+                                 content_type='application/json')
         self.assertEqual(response.status_code, 400)
 
     def test_update(self):
         item = {"value": 30}
-        response = self.app.put(GOOD_ITEM_URL, 
-				data=json.dumps(item),
-				content_type='application/json')
+        response = self.app.put(GOOD_ITEM_URL,
+                                data=json.dumps(item),
+                                content_type='application/json')
         self.assertEqual(response.status_code, 200)
         data = json.loads(response.get_data())
         self.assertEqual(data['item']['value'], 30)
+        # backup items should not change = proof need for deepcopy in setUp
+        self.assertEqual(self.backup_items[2]['value'], 20)  # not 30!
 
     def test_update_error(self):
         # cannot edit non-existing item
         item = {"value": 30}
-        response = self.app.put(BAD_ITEM_URL, 
-				data=json.dumps(item),
-				content_type='application/json')
+        response = self.app.put(BAD_ITEM_URL,
+                                data=json.dumps(item),
+                                content_type='application/json')
         self.assertEqual(response.status_code, 404)
         # value field cannot take str
         item = {"value": 'string'}
-        response = self.app.put(GOOD_ITEM_URL, 
-				data=json.dumps(item),
-				content_type='application/json')
+        response = self.app.put(GOOD_ITEM_URL,
+                                data=json.dumps(item),
+                                content_type='application/json')
         self.assertEqual(response.status_code, 400)
 
     def test_delete(self):
-        response = self.app.get(BASE_URL)
-        data = json.loads(response.get_data())
-        response = self.app.delete(GOOD_ITEM_URL) 
+        response = self.app.delete(GOOD_ITEM_URL)
         self.assertEqual(response.status_code, 204)
         # cannot delete non-existing item
-        response = self.app.delete(BAD_ITEM_URL) 
+        response = self.app.delete(BAD_ITEM_URL)
         self.assertEqual(response.status_code, 404)
 
     def tearDown(self):
-        app.items = self.backup_items 
+        # to start next test with fresh copy of items
+        app.items = self.backup_items
 
 
 if __name__ == "__main__":
