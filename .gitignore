@@ -1,6 +1,7 @@
 **pyc
 **swp
 **venv
+**.cache
 **xml
 **__pycache__
 **.ipynb_checkpoints
