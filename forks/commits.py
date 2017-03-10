@@ -1,30 +1,20 @@
 from collections import namedtuple
 import datetime
-from functools import wraps
 import time
 
 import requests
+import requests_cache
+
+requests_cache.install_cache()
 
 Fork = namedtuple('Fork', 'url updated pushed')
 
 USER = 'pybites'
 REPO = 'challenges'
-# max 60 requests per hour (https://developer.github.com/v3/#rate-limiting)
-SLEEP_COUNT = 60
 BASE_URL = 'https://api.github.com/repos/{}/{}'.format(USER, REPO)
 FORK_URL = '{}/forks?page='.format(BASE_URL)
 
 
-def sleep(f):
-    @wraps(f)
-    def wrapped(*args, **kwargs):
-        time.sleep(SLEEP_COUNT)
-        r = f(*args, **kwargs)
-        return r
-    return wrapped
-
-
-@sleep
 def get_num_pages():
     d = requests.get(BASE_URL).json()
     return int(d['network_count'] / 30) + 1
@@ -41,7 +31,6 @@ def last_change(f):
     return max(updated, pushed)
 
 
-@sleep
 def get_forks(page_num):
     d = requests.get(FORK_URL + str(page_num)).json()
     for row in d:

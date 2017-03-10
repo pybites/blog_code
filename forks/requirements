@@ -1,2 +1,3 @@
 httpretty==0.8.14
 requests==2.13.0
+requests-cache==0.4.13
