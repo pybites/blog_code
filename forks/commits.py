@@ -5,20 +5,15 @@ import time
 import requests
 import requests_cache
 
-requests_cache.install_cache()
-
-Fork = namedtuple('Fork', 'url updated pushed')
-
 USER = 'pybites'
 REPO = 'challenges'
 BASE_URL = 'https://api.github.com/repos/{}/{}'.format(USER, REPO)
 FORK_URL = '{}/forks?page='.format(BASE_URL)
+HOUR_IN_SECONDS = 60 * 60
 
+requests_cache.install_cache('cache', backend='sqlite', expire_after=HOUR_IN_SECONDS)
 
-def get_num_pages():
-    d = requests.get(BASE_URL).json()
-    return int(d['network_count'] / 30) + 1
-
+Fork = namedtuple('Fork', 'url updated pushed')
 
 def get_utstamp(tstamp):
     dt = datetime.datetime.strptime(tstamp, "%Y-%m-%dT%H:%M:%SZ")
@@ -31,22 +26,27 @@ def last_change(f):
     return max(updated, pushed)
 
 
-def get_forks(page_num):
-    d = requests.get(FORK_URL + str(page_num)).json()
-    for row in d:
-        url = row['html_url']
-        updated = row['updated_at']
-        pushed = row['pushed_at']
-        yield Fork(url, updated, pushed)
+def get_forks():
+    page_num = 0
+    while True:
+        page_num += 1
+        url = FORK_URL + str(page_num)
+        response = requests.get(url)
+        # print('getting data for url {}'.format(url))
+        d = response.json()
+        if not d:
+            return
+        for row in d:
+            url = row['html_url']
+            updated = row['updated_at']
+            pushed = row['pushed_at']
+            yield Fork(url, updated, pushed)
 
 
 if __name__ == "__main__":
-    num_forks_pages = get_num_pages()
-
     forks = {}
-    for page_num in range(1, num_forks_pages + 1):
-        for fork in get_forks(page_num):
-            forks[fork.url] = fork
+    for fork in get_forks():
+        forks[fork.url] = fork
 
     fmt = '{:<60} | {:<20} | {:<20}'
     header = fmt.format(*Fork._fields)
