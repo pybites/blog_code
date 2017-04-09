@@ -17,6 +17,7 @@ NOW_UTSTAMP = time.mktime(NOW)
 NOW_READABLE = datetime.datetime.fromtimestamp(
         int(NOW_UTSTAMP)
     ).strftime('%Y-%m-%d %H:%M:%S')
+PYBITES = 'pybit.es'
 SECONDS_IN_DAY = 24 * 60 * 60
 
 logging.basicConfig(level=logging.DEBUG,
@@ -60,15 +61,17 @@ def get_tweets(feed):
 
 if __name__ == "__main__":
     logging.debug('New run at {}, processing feeds'.format(NOW_READABLE))
+
     do_tweet = True
     if '-d' in sys.argv:
         do_tweet = False
+
     twapi = TwitterApi()
     for feed in get_feeds():
         logging.debug('- feed: {}'.format(feed))
+
         for tweet in get_tweets(feed):
             logging.debug(tweet)
-            if do_tweet:
+            print(tweet)
+            if PYBITES in tweet or do_tweet:  # always tweet our stuff
                 twapi.post_tweet(tweet)
-            else:
-                print(tweet)
