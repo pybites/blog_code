@@ -39,8 +39,8 @@ class TwitterApi(object):
         try:
             self.api.update_status(status)
             logging.debug('posted status {} to twitter'.format(status))
-        except TweepError as err:
-            logging.error('tweepy update_status error: {}'.format(err))
+        except Exception as exc:
+            logging.error('tweepy update_status error: {}'.format(exc))
 
 
 def get_feeds():
