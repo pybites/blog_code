@@ -73,5 +73,5 @@ if __name__ == "__main__":
         for tweet in get_tweets(feed):
             logging.debug(tweet)
             print(tweet)
-            if PYBITES in tweet or do_tweet:  # always tweet our stuff
+            if do_tweet:
                 twapi.post_tweet(tweet)
