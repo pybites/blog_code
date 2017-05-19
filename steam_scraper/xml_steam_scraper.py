@@ -1,7 +1,6 @@
 #!python3
 # steam_scraper.py is a simple web scraper to check for the latest steam games
 
-from pprint import pprint
 from collections import namedtuple
 import requests
 import sqlite3
