@@ -1,39 +1,69 @@
-import os
+from collections import namedtuple
 import sys
 
 from PIL import Image, ImageDraw, ImageFont
 
-ASSET_DIR = 'assets'
-PB_CHALLENGE_IMG = os.path.join(ASSET_DIR, 'pybites-challenges.png')
-PILLOW_IMG = os.path.join(ASSET_DIR, 'pillow-logo.png')
-DEFAULT_WIDTH = 600
-DEFAULT_HEIGHT = 150
-DEFAULT_CANVAS_SIZE = (DEFAULT_WIDTH, DEFAULT_HEIGHT)
-DEFAULT_TOP_MARGIN = 15
-WHITE = (255, 255, 255)
-BLACK = (0, 0, 0)
-TEXT_FONT_TYPE = os.path.join(ASSET_DIR, 'SourceSansPro-Regular.otf')
-TEXT_SIZE = 24
-TEXT_PADDING_HOR = 20
-TEXT_PADDING_VERT = 40
-IMG_TEXT = 'Code Challenge 31:\nImage Manipulation With Pillow'
+import constants
 
-image = Image.new('RGB', DEFAULT_CANVAS_SIZE, WHITE)
+Font = namedtuple('Font', 'ttf text color size offset')
+ImageDetails = namedtuple('Image', 'left top size')
 
-pb_logo = Image.open(PB_CHALLENGE_IMG)
-pb_logo_offset = (0, DEFAULT_TOP_MARGIN)
-image.paste(pb_logo, pb_logo_offset)
-pb_logo_width, pb_logo_height = pb_logo.size
+class Banner:
+    def __init__(self, size=constants.DEFAULT_CANVAS_SIZE, bgcolor=constants.WHITE):
+        '''Creating a new canvas'''
+        self.size = size
+        self.bgcolor = bgcolor
+        self.image = Image.new('RGB', self.size, self.bgcolor)
+        self.image_coords = []
 
-second_img = Image.open(PILLOW_IMG)
-second_img.thumbnail(pb_logo.size, Image.ANTIALIAS)
+    def add_image(self, image, resize=False, top=constants.DEFAULT_TOP_MARGIN, left=0, right=False):
+        '''Adds (pastes) image on canvas
+           If right is given calculate left, else take left
+           Returns added img size'''
+        img = Image.open(image)
 
-offset_second_img = (DEFAULT_WIDTH - pb_logo_width, DEFAULT_TOP_MARGIN)
-image.paste(second_img, offset_second_img)
+        if resize:
+            size = constants.DEFAULT_HEIGHT * 0.8
+            img.thumbnail((size, size), Image.ANTIALIAS)
 
-draw = ImageDraw.Draw(image)
-font = ImageFont.truetype(TEXT_FONT_TYPE, TEXT_SIZE)
-offset_text = (pb_logo_width + TEXT_PADDING_HOR, TEXT_PADDING_VERT)
-draw.text(offset_text, IMG_TEXT, BLACK, font=font)
+        if right:
+            left = self.image.size[0] - img.size[0]
+        else:
+            left = left
 
-image.save('out.png')
+        offset = (left, top)
+        self.image.paste(img, offset)
+        img_details = ImageDetails(left=left, top=top, size=img.size)
+        self.image_coords.append(img_details)
+
+    def add_text(self, font):
+        '''Adds text on a given image object'''
+        draw = ImageDraw.Draw(self.image)
+        pillow_font = ImageFont.truetype(font.ttf, font.size)
+
+        # if not offset put text alongside first image
+        if font.offset:
+            offset = font.offset
+        else:
+            left_image_px = min(img.left + img.size[0] for img in self.image_coords)
+            offset = (left_image_px + constants.TEXT_PADDING_HOR, constants.TEXT_PADDING_VERT)
+
+        draw.text(offset, font.text, font.color, font=pillow_font)
+
+    def save_image(self, output_file='out.png'):
+        self.image.save(output_file)
+
+
+if __name__ == '__main__':
+    banner = Banner()
+    banner.add_image(constants.FIRST_IMAGE)
+    banner.add_image(constants.SECOND_IMAGE, resize=True, right=True)
+
+    font = Font(ttf=constants.DEFAULT_TEXT_FONT_TYPE,
+                text=constants.IMG_TEXT,
+                color=constants.BLACK,
+                size=constants.DEFAULT_TEXT_SIZE,
+                offset=None)
+
+    banner.add_text(font)
+    banner.save_image()
