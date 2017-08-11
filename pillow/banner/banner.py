@@ -72,11 +72,6 @@ class Banner:
 
         draw.text(offset, font.text, font.color, font=pillow_font)
 
-    def add_background(self, image):
-        img = Image.open(image)
-        img.thumbnail(DEFAULT_CANVAS_SIZE, Image.ANTIALIAS)
-        self.image.paste(img, (0, 0))
-
     def save_image(self):
         self.image.save(self.output_file)
 
