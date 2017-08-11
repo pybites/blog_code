@@ -47,8 +47,6 @@ class Banner:
 
         if right:
             left = self.image.size[0] - img.size[0]
-        else:
-            left = left
 
         offset = (left, top)
         self.image.paste(img, offset)
