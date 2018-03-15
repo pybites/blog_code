@@ -1,13 +1,17 @@
 import re
+from copy import deepcopy
+from time import sleep
 
 import pytest
 
 from groceries import (Groceries, Item, DuplicateProduct,
                        MaxCravingsReached)
 
-@pytest.fixture
+@pytest.fixture(scope="module")
 def cart():
     """Setup code to create a groceries cart object with 6 items in it"""
+    print('sleeping a bit at module level')
+    sleep(1)  # for scope=module demo purposes
     products = 'celery apples water coffee chicken pizza'.split()
     prices = [1, 4, 2, 5, 6, 4]
     cravings = False, False, False, False, False, True
@@ -39,6 +43,8 @@ def test_initial_filled_cart(cart):
 
 
 def test_add_item(cart):
+    cart = deepcopy(cart)  # not needed if scope > function (module/session)
+
     oranges = Item(product='oranges', price=3, craving=False)
     cart.add(oranges)
 
@@ -56,6 +62,7 @@ def test_add_item_duplicate(cart):
 
 
 def test_add_item_max_cravings(cart):
+    cart = deepcopy(cart)
     chocolate = Item(product='chocolate', price=2, craving=True)
     cart.add(chocolate)
     assert cart.num_cravings_reached
@@ -66,6 +73,7 @@ def test_add_item_max_cravings(cart):
 
 
 def test_delete_item(cart):
+    cart = deepcopy(cart)
     # not in collection
     croissant = 'croissant'
     with pytest.raises(IndexError):
