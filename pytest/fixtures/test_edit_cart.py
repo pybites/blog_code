@@ -6,7 +6,7 @@ from groceries import Item, DuplicateProduct, MaxCravingsReached
 
 
 def test_add_item(cart):
-    cart = deepcopy(cart)  # not needed if scope > function (module/session)
+    cart = deepcopy(cart)  # not needed if scope=function
 
     oranges = Item(product='oranges', price=3, craving=False)
     cart.add(oranges)
@@ -14,7 +14,7 @@ def test_add_item(cart):
     assert len(cart) == 7
     assert cart[-1].product == 'oranges'
     assert cart[-1].price == 3
-    assert cart.total_price == 25
+    assert cart.due == 25
     assert not cart.num_cravings_reached
 
 

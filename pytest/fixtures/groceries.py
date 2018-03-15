@@ -28,7 +28,7 @@ class Groceries:
                 product += ' (craving)'
             print(f'{product:<30} | {item.price:>3}')
         print('-' * 36)
-        print(f'{"Total":<30} | {self.total_price:>3}')
+        print(f'{"Total":<30} | {self.due:>3}')
 
     def add(self, new_item):
         """Add a new item to cart, raise exceptions if item already in
@@ -57,13 +57,13 @@ class Groceries:
                 yield item
 
     @property
-    def total_price(self):
-        """Calculate total price of cart"""
+    def due(self):
+        """Calculate total due value of cart"""
         return sum(item.price for item in self)
 
     @property
     def num_cravings_reached(self):
-        """Calculate number of cravings in cart"""
+        """Checks if I have too many cravings in my cart """
         return len([item for item in self if item.craving]) >= MAX_CRAVINGS
 
     def __len__(self):
@@ -71,7 +71,7 @@ class Groceries:
         return len(self._items)
 
     def __getitem__(self, index):
-        """Making the class iterable (cart = Cart() -> cart[1] etc)
+        """Making the class iterable (cart = Groceries() -> cart[1] etc)
            without this dunder I would get 'TypeError: 'Cart' object does
            not support indexing' when trying to index it"""
         return self._items[index]

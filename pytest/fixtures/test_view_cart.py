@@ -9,7 +9,7 @@ def test_initial_empty_cart():
     """Note no fixture here to test an empty cart creation"""
     cart = Groceries()
     assert len(cart) == 0
-    assert cart.total_price == 0
+    assert cart.due == 0
 
 
 def test_initial_filled_cart(cart):
@@ -20,7 +20,7 @@ def test_initial_filled_cart(cart):
     assert cart[-1].price == 4
 
     assert len(cart) == 6
-    assert cart.total_price == 22
+    assert cart.due == 22
     assert not cart.num_cravings_reached
 
 
