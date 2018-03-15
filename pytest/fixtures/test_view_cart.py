@@ -2,7 +2,7 @@ import re
 
 import pytest
 
-from groceries import Groceries, Item, DuplicateProduct
+from groceries import Groceries
 
 
 def test_initial_empty_cart():
@@ -22,12 +22,6 @@ def test_initial_filled_cart(cart):
     assert len(cart) == 6
     assert cart.total_price == 22
     assert not cart.num_cravings_reached
-
-
-def test_add_item_duplicate(cart):
-    apples = Item(product='apples', price=4, craving=False)
-    with pytest.raises(DuplicateProduct):
-        cart.add(apples)
 
 
 @pytest.mark.parametrize("test_input,expected", [

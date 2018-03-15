@@ -2,7 +2,7 @@ from copy import deepcopy
 
 import pytest
 
-from groceries import Item, MaxCravingsReached
+from groceries import Item, DuplicateProduct, MaxCravingsReached
 
 
 def test_add_item(cart):
@@ -27,6 +27,12 @@ def test_add_item_max_cravings(cart):
     croissants = Item(product='croissants', price=3, craving=True)
     with pytest.raises(MaxCravingsReached):
         cart.add(croissants)  # wait till next week!
+
+
+def test_add_item_duplicate(cart):
+    apples = Item(product='apples', price=4, craving=False)
+    with pytest.raises(DuplicateProduct):
+        cart.add(apples)
 
 
 def test_delete_item(cart):
