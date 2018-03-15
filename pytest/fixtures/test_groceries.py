@@ -5,26 +5,28 @@ import pytest
 from groceries import (Groceries, Item, DuplicateProduct,
                        MaxCravingsReached)
 
-
-def _setup_items():
+@pytest.fixture
+def cart():
+    """Setup code to create a groceries cart object with 6 items in it"""
     products = 'celery apples water coffee chicken pizza'.split()
     prices = [1, 4, 2, 5, 6, 4]
     cravings = False, False, False, False, False, True
+
+    items = []
     for item in zip(products, prices, cravings):
-        yield Item(*item)
+        items.append(Item(*item))
+
+    return Groceries(items)
 
 
 def test_initial_empty_cart():
+    """Note no fixture here to test an empty cart creation"""
     cart = Groceries()
-
     assert len(cart) == 0
     assert cart.total_price == 0
 
 
-def test_initial_filled_cart():
-    items = list(_setup_items())
-    cart = Groceries(items=items)
-
+def test_initial_filled_cart(cart):
     # thanks to __getitem__ can index the cart
     assert cart[0].product == 'celery'
     assert cart[0].price == 1
@@ -36,10 +38,7 @@ def test_initial_filled_cart():
     assert not cart.num_cravings_reached
 
 
-def test_add_item():
-    items = list(_setup_items())
-    cart = Groceries(items=items)
-
+def test_add_item(cart):
     oranges = Item(product='oranges', price=3, craving=False)
     cart.add(oranges)
 
@@ -50,19 +49,13 @@ def test_add_item():
     assert not cart.num_cravings_reached
 
 
-def test_add_item_duplicate():
-    items = list(_setup_items())
-    cart = Groceries(items=items)
-
+def test_add_item_duplicate(cart):
     apples = Item(product='apples', price=4, craving=False)
     with pytest.raises(DuplicateProduct):
         cart.add(apples)
 
 
-def test_add_item_max_cravings():
-    items = list(_setup_items())
-    cart = Groceries(items=items)
-
+def test_add_item_max_cravings(cart):
     chocolate = Item(product='chocolate', price=2, craving=True)
     cart.add(chocolate)
     assert cart.num_cravings_reached
@@ -72,10 +65,7 @@ def test_add_item_max_cravings():
         cart.add(croissants)  # wait till next week!
 
 
-def test_delete_item():
-    items = list(_setup_items())
-    cart = Groceries(items=items)
-
+def test_delete_item(cart):
     # not in collection
     croissant = 'croissant'
     with pytest.raises(IndexError):
@@ -99,17 +89,11 @@ def test_delete_item():
     ('zZ', 1),
     ('e', 5),
 ])
-def test_search_item(test_input, expected):
-    items = list(_setup_items())
-    cart = Groceries(items=items)
-
+def test_search_item(cart, test_input, expected):
     assert len(list(cart.search(test_input))) == expected
 
 
-def test_show_items(capfd):
-    items = list(_setup_items())
-    cart = Groceries(items=items)
-
+def test_show_items(cart, capfd):
     cart.show()
     output = [line for line in capfd.readouterr()[0].split('\n')
               if line.strip()]
