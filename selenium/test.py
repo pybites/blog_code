@@ -56,11 +56,3 @@ def test_loggedin_dashboard(driver):
 
     # only current date is marked active
     assert len(driver.find_elements_by_class_name('today')) == 1
-
-
-def test_coding_streak_calendar_widget(driver):
-    pass
-    # I challenge you!
-    # write some code to do a bite save, or log progress on a challenge,
-    # or update a 100 days grid, then see if the calendar's cell for today
-    # turned green
