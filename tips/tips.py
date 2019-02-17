@@ -69,7 +69,7 @@ def get_carbon_image(tip):
     driver.get(url)
 
     driver.find_element_by_class_name(TWEET_BTN_CLASS).click()
-    sleep(3)  # this might take a bit
+    sleep(5)  # this might take a bit
 
     window_handles = driver.window_handles
     driver.switch_to.window(window_handles[1])
