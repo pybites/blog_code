@@ -31,7 +31,7 @@ def _create_update(book):
                              author=book.author,
                              pub_date=book.pub_date,
                              link=PACKT_FREE_LEARNING,
-                             timer=book.expires,
+                             expires=book.expires,
                              cover=book.cover)
 
 
