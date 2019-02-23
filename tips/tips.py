@@ -16,7 +16,7 @@ TWEET = '''{tip} {src}
 
 🐍 Check out more @pybites tips at https://codechalleng.es/tips 💡
 
-(Image built with #Carbon, by @dawn_labs)
+(image built with @carbon_app)
 
 {img}
 '''
