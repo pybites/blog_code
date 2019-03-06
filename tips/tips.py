@@ -11,7 +11,6 @@ from selenium import webdriver
 TIPS_PAGE = 'https://codechalleng.es/tips'
 PYBITES_HAS_TWEETED = 'pybites/status'
 CARBON = 'https://carbon.now.sh/?l=python&code={code}'
-TWEET_BTN_CLASS = 'jsx-2739697134'
 TWEET = '''{tip} {src}
 
 🐍 Check out more @pybites tips at https://codechalleng.es/tips 💡
@@ -68,7 +67,7 @@ def get_carbon_image(tip):
     driver = webdriver.Chrome()
     driver.get(url)
 
-    driver.find_element_by_class_name(TWEET_BTN_CLASS).click()
+    driver.find_element_by_xpath("//button[contains(text(),'Tweet')]").click()
     sleep(5)  # this might take a bit
 
     window_handles = driver.window_handles
