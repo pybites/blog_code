@@ -1,5 +1,5 @@
 from collections import namedtuple
-import os
+from pathlib import Path
 import sys
 
 from PIL import Image, ImageDraw, ImageFont
@@ -13,7 +13,7 @@ RESIZE_PERCENTAGE = 0.8
 DEFAULT_TOP_MARGIN = int(((1 - 0.8) * DEFAULT_HEIGHT) / 2)
 WHITE, BLACK = (255, 255, 255), (0, 0, 0)
 TEXT_SIZE = 24
-TEXT_FONT_TYPE = os.path.join(ASSET_DIR, 'SourceSansPro-Regular.otf')
+TEXT_FONT_TYPE = Path(ASSET_DIR, 'SourceSansPro-Regular.otf')
 TEXT_PADDING_HOR, TEXT_PADDING_VERT = 20, 40
 
 Font = namedtuple('Font', 'ttf text color size offset')
