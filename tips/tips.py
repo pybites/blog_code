@@ -68,7 +68,7 @@ def get_carbon_image(tip):
     driver.get(url)
 
     driver.find_element_by_xpath("//button[contains(text(),'Tweet')]").click()
-    sleep(5)  # this might take a bit
+    sleep(10)  # this might take a bit
 
     window_handles = driver.window_handles
     driver.switch_to.window(window_handles[1])
