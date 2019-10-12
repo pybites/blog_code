@@ -13,7 +13,7 @@ PYBITES_HAS_TWEETED = 'pybites/status'
 CARBON = 'https://carbon.now.sh/?l=python&code={code}'
 TWEET = '''{tip} {src}
 
-🐍 Check out more @pybites tips at https://codechalleng.es/tips 💡
+🐍 Check out / submit more @pybites tips at https://codechalleng.es/tips 💡
 
 (image built with @carbon_app)
 
