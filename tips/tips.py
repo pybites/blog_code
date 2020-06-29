@@ -8,7 +8,7 @@ from bs4 import BeautifulSoup
 import requests
 from selenium import webdriver
 
-TIPS_PAGE = 'https://codechalleng.es/tips'
+TIPS_PAGE = 'https://codechalleng.es/tips/all'
 PYBITES_HAS_TWEETED = 'pybites/status'
 CARBON = 'https://carbon.now.sh/?l=python&code={code}'
 TWEET = '''{tip} {src}
