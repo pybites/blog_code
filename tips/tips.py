@@ -32,12 +32,12 @@ def retrieve_tips():
 
     for entry in resp.json():
         # skip tips that were already shared
-        if entry['share_link'] is not None:
+        code = entry['code']
+        if entry['share_link'] is not None or not code:
             continue
 
         idx = entry['id']
         tip = entry['tip']
-        code = entry['code']
         link = entry['link']
 
         tips[idx] = Tip(tip=tip, code=code, link=link)
