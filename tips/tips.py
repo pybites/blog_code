@@ -7,7 +7,7 @@ import urllib.parse
 import requests
 from selenium import webdriver
 
-TIPS_PAGE = 'https://codechalleng.es/api/tips'
+TIPS_PAGE = 'https://codechalleng.es/api/admin_tips'
 PYBITES_HAS_TWEETED = 'pybites/status'
 CARBON = 'https://carbon.now.sh/?l=python&code={code}'
 TWEET = '''{tip} {src}
