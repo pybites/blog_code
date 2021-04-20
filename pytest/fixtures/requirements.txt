@@ -1,7 +1,7 @@
 attrs==17.4.0
 coverage==4.5.1
 pluggy==0.6.0
-py==1.5.2
+py==1.10.0
 pytest==3.4.2
 pytest-cov==2.5.1
 six==1.11.0
